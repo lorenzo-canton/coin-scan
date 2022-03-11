@@ -13,6 +13,12 @@ module.exports = {
     
         if (short_ema > long_ema) return 'BUY'
         return 'SELL'
+    },
+    getAvg : function (prices) {
+        return avg(prices)
+    },
+    getEma : function (price, last, n) {
+        return ema(price, last, n)
     }
 }
 

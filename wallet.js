@@ -21,8 +21,9 @@ module.exports = {
     close : doClose,
     checkOrders : function (price) {
         orders.forEach(order => {
-            if ((order.type == 'BUY' && order.open - price < -order.stop) 
-                || (order.type == "SELL" && price - order.open < -order.stop)) {
+            if ((order.type == 'BUY' && order.open - price < order.stop) 
+                || (order.type == "SELL" && price - order.open < order.stop)) {
+                console.log('hit stop loss');
                 doClose(order, price)
             }
         })
