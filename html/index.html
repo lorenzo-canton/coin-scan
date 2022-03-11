@@ -7,7 +7,7 @@
 </head>
 <script>
     function getOpen() {
-        fetch('http://localhost:3000/open')
+        fetch('/open')
         .then(response => response.json())
         .then(data => {
             var html = ""
@@ -22,7 +22,7 @@
     }
     getOpen()
     function getHistory() {
-        fetch('http://localhost:3000/history')
+        fetch('/history')
         .then(response => response.json())
         .then(data => {
             var html = ""

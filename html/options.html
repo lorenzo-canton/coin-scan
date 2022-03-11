@@ -6,7 +6,7 @@
     <title>Options</title>
 </head>
 <script>
-    fetch('http://localhost:3000/botoptions')
+    fetch('/botoptions')
     .then(response => response.json())
     .then(data => {
         document.getElementById("timeframe").value = data.timeframe
