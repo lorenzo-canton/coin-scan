@@ -25,4 +25,4 @@ app.listen(3000)
 const exchange = new ccxt.binance()
 exchange.loadMarkets()
 
-tracker.startTrack(exchange, ['BTC/USDT'], '1m', 2)
+tracker.startTrack(exchange, ['BTC/USDT'], '15m', 50)

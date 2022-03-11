@@ -3,36 +3,55 @@ const wallet = require('./wallet')
 
 ema = null
 last_trend = null
+timeframe = null
+number = null
 
 module.exports = {
-    startTrack : async function(exchange, symbols, timeframe, n) {
+    startTrack : async function(exchange, symbols, tf, n) {
+        timeframe = tf
+        number = n
         while (true) {
             trackSymbol(exchange, symbols, timeframe, n).catch()
             await new Promise(resolve => setTimeout(resolve, 10000))
         }
+    },
+    setTimeFrame : function (tf) {
+        timeframe = tf
+    },
+    setNumber : function (n) {
+        number = n
     }
 }
-async function trackSymbol(exchange, symbols, timeframe, ema_n) {
+async function trackSymbol(exchange, symbols) {
     console.log('-----------------------------------')
     //FETCH API
-    exchange.fetchOHLCV(symbols[0], timeframe, undefined, ema_n)
+    exchange.fetchOHLCV(symbols[0], timeframe, undefined, number)
     .then(candles => {
         prices = candles.map(candle => candle[4])
         price = prices[prices.length - 1]
 
-        ema = ema ? statistics.getEma(price, ema, ema_n) : statistics.getAvg(prices)
+        wallet.checkOrders(price)
+
+        ema = ema ? statistics.getEma(price, ema, number) : statistics.getAvg(prices)
         trend = getTrend(price, ema)
         signal = getSignal(trend)
 
-        console.log(prices)
+        //console.log(prices)
         console.log(price)
-        console.log('ema(' + ema_n + ')\t' + ema)
-        console.log('trend\t' + trend)
+        //console.log('money ' + wallet.getMoney())
+        console.log(ema)
+        //console.log('trend\t' + trend)
+
         if (signal) {
-            console.log('SIGNAL ' + signal)
-            
+            //console.log('SIGNAL ' + signal)
+            wallet.getOrders().forEach(order => {
+                if (order.type != signal) wallet.close(order, price)
+            })
+            wallet.open(signal, price, -10)
         }
 
+        console.log(wallet.getOrders())
+        //console.log(wallet.getHistory())
         last_trend = trend
     })
 }

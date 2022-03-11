@@ -12,40 +12,39 @@ module.exports = {
         return money
     },
     open : function (type, position, stop) {
-        orders.push({
-            type : type,
-            stop : stop,
-            openPosition : position
-        })
+        doOpen(type, position, stop)  
     },
     close : doClose,
     checkOrders : function (price) {
         orders.forEach(order => {
-            if ((order.type == 'BUY' && order.open - price < order.stop) 
-                || (order.type == "SELL" && price - order.open < order.stop)) {
-                console.log('hit stop loss');
-                doClose(order, price)
-            }
+            if (order.type == 'BUY') order.balance = price - order.openPosition
+            else order.balance = order.openPosition - price
+
+            if (order.balance < order.stop) doClose(order, price)
         })
     }
 }
+
+function doOpen(type, position, stop) {
+    orders.push({
+        type : type,
+        balance : 0,
+        stop : stop,
+        openPosition : position
+    })
+}
+
 function doClose(order, position) {
     order = orders.find(e => e == order)
     if (order) {
-        balance = 0
-
-        if (order.type == 'BUY') balance += position - order.openPosition
-        else balance -= order.openPosition - position
+        if (order.type == 'BUY') order.balance = position - order.openPosition
+        else order.balance = order.openPosition - position
 
         orders = orders.filter(e => e != order)
-        money += balance
+        money += order.balance
 
-        order_history.push({
-            type: order.type,
-            stop : order.stop,
-            openPosition: order.openPosition,
-            closePosition: position,
-            balance: balance
-        })
+        order.closePosition = position
+
+        order_history.push(order)
     }        
 }
