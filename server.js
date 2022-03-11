@@ -1,6 +1,7 @@
 const ccxt = require('ccxt')
 const express = require('express')
 const path = require('path')
+const bodyParser = require("body-parser");
 
 const tracker = require('./bot')
 const wallet = require('./wallet')
@@ -8,9 +9,13 @@ const wallet = require('./wallet')
 const app = express()
 
 app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'))
+    res.sendFile(path.join(__dirname, 'html/index.html'))
+})
+app.get('/options', (req, res) => {
+    res.sendFile((path.join(__dirname, 'html/options.html')))
 })
 
 app.get('/open', (req, res) => {
@@ -18,6 +23,19 @@ app.get('/open', (req, res) => {
 })
 app.get('/history', (req, res) => {
     res.json(wallet.getHistory())
+})
+app.get('/botoptions', (req, res) => {
+    res.json(tracker.getOptions())
+})
+
+app.post('/timeframe', (req, res) => {
+    console.log(req.body);
+    tracker.setTimeFrame(req.body.timeframe)
+    res.sendStatus(200)
+})
+app.post('/numer', (req, res) => {
+    tracker.setNumber(req.body.number)
+    res.sendStatus(200)
 })
 
 app.listen(3000)

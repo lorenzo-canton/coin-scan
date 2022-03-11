@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Options</title>
+</head>
+<script>
+    fetch('http://localhost:3000/botoptions')
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("timeframe").value = data.timeframe
+        document.getElementById("number").value = data.number
+    })
+</script>
+<body>
+    <a href="/">HOME</a>
+    <h3>Set timeframe</h3>
+    <form action="/timeframe" method="POST">
+        <input type="text" name="timeframe" id="timeframe">
+        <input type="submit" value="send">
+    </form>
+    <hr>
+    <h3>Set number</h3>
+    <form action="/number" method="POST">
+        <input type="number" name="number" id="number">
+        <input type="submit" value="send">
+    </form>
+    <hr>
+</body>
+</html>

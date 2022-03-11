@@ -3,3 +3,13 @@ GET http://localhost:3000/open HTTP/1.1
 ###
 
 GET http://localhost:3000/history HTTP/1.1
+
+###
+
+POST http://localhost:3000/timeframe HTTP/1.1
+
+Content-Type: application/json
+
+{
+    "timeframe" : "15m" 
+}
