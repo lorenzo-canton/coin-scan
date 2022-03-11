@@ -33,7 +33,7 @@ app.post('/timeframe', (req, res) => {
     tracker.setTimeFrame(req.body.timeframe)
     res.sendStatus(200)
 })
-app.post('/numer', (req, res) => {
+app.post('/number', (req, res) => {
     tracker.setNumber(req.body.number)
     res.sendStatus(200)
 })
