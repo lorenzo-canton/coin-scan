@@ -17,7 +17,7 @@ from emastrat import EmaTrader
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
-apihandler.init()
+apihandler.connect()
 
 if __name__ == "__main__":
     log_format = "%(asctime)s: %(message)s"

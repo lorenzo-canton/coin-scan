@@ -17,7 +17,7 @@ class EmaTrader(threading.Thread):
     
   def run(self):
     while True:
-      logging.info("EMA TRADER")
+      
       df = get_data(self.symbol, self.timeframe, ema_slow_number)
 
       # calcolo ema veloce e lenta
@@ -38,7 +38,8 @@ class EmaTrader(threading.Thread):
       
       # controllo se il trend cambia
       if last_trend != actual_trend:
-        print(actual_trend)
+        logging.info("EMA TRADER")
+        logging.info(actual_trend)
 
       time.sleep(timeframe[self.timeframe] * 60)
     
