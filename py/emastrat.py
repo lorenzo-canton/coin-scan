@@ -1,6 +1,7 @@
 import logging
 import threading
 import time
+import apihandler
 
 
 from apihandler import get_data
@@ -26,20 +27,29 @@ class EmaTrader(threading.Thread):
       
       # calcolo trend attuale
       if ema_fast[-1] > ema_slow[-1]:
-        actual_trend = 'up'
+        actual_trend = True
       else:
-        actual_trend = 'down'
+        actual_trend = False
       
       # calcolo trend passato
       if ema_fast[-2] > ema_slow[-2]:
-        last_trend = 'up'
+        last_trend = True
       else:
-        last_trend = 'down'
+        last_trend = False
       
+      logging.info(actual_trend)
+      print(ema_fast[-1])
+      print(ema_slow[-1])
       # controllo se il trend cambia
       if last_trend != actual_trend:
         logging.info("EMA TRADER")
-        logging.info(actual_trend)
+        
+        
+        apihandler.close_for_symbol(self.symbol)
+        if actual_trend:
+          apihandler.open_buy(self.symbol, 1)
+        else:
+          apihandler.open_sell(self.symbol, 1)
 
       time.sleep(timeframe[self.timeframe] * 60)
     
