@@ -24,6 +24,10 @@ def get_order(id):
     return con.get_order(id)
 
 
+def get_orders():
+    return con.get_open_positions()
+
+
 def get_open_orders_id():
     return con.get_open_trade_ids()
 
@@ -38,3 +42,7 @@ def open_sell(sym, amt):
 
 def close_order(id, amt):
     con.close_trade(id, amt)
+
+
+def close_for_symbol(sym):
+    con.close_all_for_symbol(sym)
