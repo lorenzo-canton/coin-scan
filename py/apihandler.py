@@ -31,6 +31,8 @@ def get_orders():
 def get_open_orders_id():
     return con.get_open_trade_ids()
 
+def open_trade(sym, is_buy, amount, timef, rate, is_in_pips, limit, at_market, stop, trailing_step):
+    con.open_trade(sym, is_buy, amount, timef, 'AtMarket', rate, is_in_pips, limit, at_market, stop, trailing_step)
 
 def open_buy(sym, amt):
     con.create_market_buy_order(sym, amt)

@@ -10,22 +10,19 @@ from ENV import timeframe
 
 class EmaTrader(threading.Thread):
   
-  def __init__(self, symbol, timeframe, fast, slow):
+  def __init__(self, params):
     threading.Thread.__init__(self)
-    self.symbol = symbol
-    self.timeframe = timeframe
-    self.fast = fast
-    self.slow = slow
+    self.params = params
     
     
   def run(self):
     while True:
       
-      df = get_data(self.symbol, self.timeframe, self.slow)
+      df = get_data(self.params["symbol"], self.params["timeframe"], self.params["ema_slow"])
 
       # calcolo ema veloce e lenta
-      ema_fast = df['bidclose'].ewm(span=self.fast).mean()
-      ema_slow = df['bidclose'].ewm(span=self.slow).mean()
+      ema_fast = df['bidclose'].ewm(span=self.params["ema_fast"]).mean()
+      ema_slow = df['bidclose'].ewm(span=self.params["ema_slow"]).mean()
       
       # calcolo trend attuale
       if ema_fast[-1] > ema_slow[-1]:
@@ -48,13 +45,13 @@ class EmaTrader(threading.Thread):
       if last_trend != actual_trend:
         logging.info("NEW TRADE")
         
-        apihandler.close_for_symbol(self.symbol)
+        apihandler.close_for_symbol(self.params["symbol"])
         
         if actual_trend:
-          apihandler.open_buy(self.symbol, 1)
+          apihandler.open_buy(self.params["symbol"], 1)
         else:
-          apihandler.open_sell(self.symbol, 1)
+          apihandler.open_sell(self.params["symbol"], 1)
 
       print()
-      time.sleep(timeframe[self.timeframe] * 60)
+      time.sleep(timeframe[self.params["timeframe"]] * 60)
     

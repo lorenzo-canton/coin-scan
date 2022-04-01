@@ -24,5 +24,5 @@ if __name__ == "__main__":
     logging.basicConfig(format=log_format, level=logging.INFO, datefmt="%H:%M:%S")
 
     trader1 = ENV.trader[0]
-    ema_trader = EmaTrader(trader1["symbol"], trader1["timeframe"], trader1["ema_fast"], trader1["ema_slow"])
+    ema_trader = EmaTrader(trader1)
     ema_trader.start()
