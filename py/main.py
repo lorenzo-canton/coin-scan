@@ -12,7 +12,7 @@ import datetime as dt
 import fxcmpy
 
 import apihandler
-from ENV import timeframe, TOKEN
+import ENV
 from emastrat import EmaTrader
 
 pd.set_option('display.max_columns', None)
@@ -23,5 +23,6 @@ if __name__ == "__main__":
     log_format = "%(asctime)s: %(message)s"
     logging.basicConfig(format=log_format, level=logging.INFO, datefmt="%H:%M:%S")
 
-    ema_trader = EmaTrader('GBP/JPY','m1')
+    trader1 = ENV.trader[0]
+    ema_trader = EmaTrader(trader1["symbol"], trader1["timeframe"], trader1["ema_fast"], trader1["ema_slow"])
     ema_trader.start()

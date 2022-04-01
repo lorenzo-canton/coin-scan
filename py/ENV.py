@@ -19,5 +19,11 @@ TOKEN = '546a088987e0e775aa7834095f187d3b1c4e4e06'
 pip_cost = .0911
 lot_size = 10
 
-ema_fast_number = 12
-ema_slow_number = 20
+trader = [
+    {
+        "symbol": 'GBP/JPY',
+        "timeframe": 'm1',
+        "ema_fast": 8,
+        "ema_slow": 20
+    }
+]
