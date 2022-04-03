@@ -3,12 +3,12 @@ timeframe = {
     'm1': 1,
     'm5': 5,
     'm15': 15,
-    'h1': 60,
-    'h2': 2 * 60,
-    'h3': 3 * 60,
-    'h4': 4 * 60,
-    'h6': 6 * 60,
-    'h8': 8 * 60,
+    'H1': 60,
+    'H2': 2 * 60,
+    'H3': 3 * 60,
+    'H4': 4 * 60,
+    'H6': 6 * 60,
+    'H8': 8 * 60,
     'D1': 24 * 60,
     'W1': 7 * 24 * 60,
     'M1': 30 * 24 * 60
@@ -21,8 +21,9 @@ lot_size = 10
 
 trader = [
     {
-        "symbol": 'GBP/JPY',
-        "timeframe": 'm1',
+        "symbol": "GBP/USD",
+        "timeframe": "m1",
+        "outerTimeframe": "H1",
         "ema_fast": 8,
         "ema_slow": 20
     }
